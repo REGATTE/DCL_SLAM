@@ -1,0 +1,85 @@
+name: ROS2_TEST
+on:
+    workflow_dispatch:
+    push:
+        branches:
+            - master
+            - 'releases/**'
+
+jobs:
+  setup_env:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+  
+  build_foxy:
+    needs: setup
+    runs-on: ubuntu-latest
+    container: ros:foxy-ros-core
+    steps:
+      - name: Install dependencies
+        run: |
+          apt install python3-rosdep
+          apt install python3-vcstools
+          rosdep init
+          rosdep update
+          cd ~/ros2_ws/src
+          rosdep install -r -y --from-paths . --ignore-src
+        shell: bash
+  
+  test_foxy:
+    needs: build_foxy
+    runs-on: ubuntu-latest
+    container: ros:foxy-ros-core
+    steps:
+        - run: test -d "${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}/install/roscpp_tutorials"
+          name: "Check that roscpp_tutorials install directory is present"
+
+
+  build_humble:
+    needs: setup
+    runs-on: ubuntu-latest
+    container: ros:humble-ros-core
+    steps:
+      - name: Install dependencies
+        run: |
+          apt install python3-rosdep
+          apt install python3-vcstools
+          rosdep init
+          rosdep update
+          cd ~/ros2_ws/src
+          rosdep install -r -y --from-paths . --ignore-src
+        shell: bash
+
+  test_humble:
+    needs: build_humble
+    runs-on: ubuntu-latest
+    container: ros:humble-ros-core
+    steps:
+      - run: test -d "${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}/install/roscpp_tutorials"
+        name: "Check that roscpp_tutorials install directory is present"
+
+  build_iron:
+    needs: setup
+    runs-on: ubuntu-latest
+    container: ros:iron-ros-core
+    steps:
+      - name: Install dependencies
+        run: |
+          apt install python3-rosdep
+          apt install python3-vcstools
+          rosdep init
+          rosdep update
+          cd ~/ros2_ws/src
+          rosdep install -r -y --from-paths . --ignore-src
+        shell: bash
+
+  test_iron:
+    needs: build_iron
+    runs-on: ubuntu-latest
+    container: ros:iron-ros-core
+    steps:
+      - run: test -d "${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}/install/roscpp_tutorials"
+        name: "Check that roscpp_tutorials install directory is present"
