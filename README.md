@@ -12,15 +12,30 @@
 | HUMBLE | ![build](https://github.com/REGATTE/SSL_SLAM/blob/main/.github/workflows/ros2_humble/badge.svg) |
 | IRON | ![build](https://github.com/REGATTE/SSL_SLAM/blob/main/.github/workflows/ros2_iron/badge.svg)|
 
+Source ros2 and its workspace, to the `~/.bashrc` file so that you dont have to source it everytime.
+```bash
+cd
+nano ~/.bashrc
+source opt/ros/{{distro}}/setup.bash
+source ~/ros2_ws/install/setup.bash
+```
+
+Rename {{distro}} by whichever distro you're using.
+
 ```bash
 cd ~/ros2_ws/src
 git clone https://github.com/REGATTE/SSL_SLAM.git
 
 cd ..
-colcon build 
+colcon build --symlink-install
 ```
 
-## Sensor Setup
+*Make sure your setup-tools version is set to 52.8.0. This version is best for building packages.*
+
+## Model Setup
+
+ - Launch ISAAC SIM, with `ROS2_Bridge` activated.
+ - 
 
 The project uses a Solid State LiDAR, and uses the default solid state lidar available on NVIDIA ISAAC SIM. **Velarray M1600** and **Realsense L515** would be implemented soon. 
 
