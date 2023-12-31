@@ -8,9 +8,9 @@
 
 | ROS DISTRO | Status |
 |------------|--------|
-| FOXY | ![build]() |
-| HUMBLE | ![build]() |
-| IRON | ![build]()|
+| FOXY | ![build](https://github.com/REGATTE/SSL_SLAM/blob/main/.github/workflows/ros2_foxy/badge.svg) |
+| HUMBLE | ![build](https://github.com/REGATTE/SSL_SLAM/blob/main/.github/workflows/ros2_humble/badge.svg) |
+| IRON | ![build](https://github.com/REGATTE/SSL_SLAM/blob/main/.github/workflows/ros2_iron/badge.svg)|
 
 ```bash
 cd ~/ros2_ws/src
