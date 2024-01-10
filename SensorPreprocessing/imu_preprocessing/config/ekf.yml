@@ -1,0 +1,78 @@
+ekf_filter_node:
+  ros__parameters:
+    use_sim_time: true
+    frequency: 60.0 #will output, 120times a secong
+    sensor_timeout: 0.1 #in seconds
+    two_d_mode: true # true, if 2d operation else 3d
+    transform_time_offset: 0.0
+    transform_timeout: 0.0
+    print_diagnostics: true
+    debug: true
+    debug_out_file: /home/debug/imu_preprocessing_ekf_debug.txt
+    publish_tf: true
+    publish_acceleration: false
+    reset_on_time_jump: true
+
+    base_link_frame: chassis
+    world_frame: odom
+
+    imu0: /IMU/raw_0
+    imu0_config: [  false, false, false,  #[x_pos   , y_pos    , z_pos,
+                    true,  true,  true,   # roll    , pitch    , yaw,
+                    false, false, false,  # x_vel   , y_vel    , z_vel,
+                    true,  true,  true,   # roll_vel, pitch_vel, yaw_vel,
+                    true,  true,  true ]  # x_accel , y_accel  , z_accel]
+    imu0_queue_size: 7
+    imu0_nodelay: false
+    imu0_differential: false
+    imu0_relative: true
+    imu0_pose_rejection_threshold: 0.8
+    imu0_twist_rejection_threshold: 0.8
+    imu0_linear_acceleration_rejection_threshold: 0.8
+    imu0_remove_gravitational_acceleration: true
+
+    imu1: /IMU/raw_1
+    imu1_config: [  false, false, false,  #[x_pos   , y_pos    , z_pos,
+                    true,  true,  true,   # roll    , pitch    , yaw,
+                    false, false, false,  # x_vel   , y_vel    , z_vel,
+                    true,  true,  true,   # roll_vel, pitch_vel, yaw_vel,
+                    true,  true,  true ]  # x_accel , y_accel  , z_accel]
+    imu1_queue_size: 7
+    imu1_nodelay: false
+    imu1_differential: false
+    imu1_relative: true
+    imu1_pose_rejection_threshold: 0.8
+    imu1_twist_rejection_threshold: 0.8
+    imu1_linear_acceleration_rejection_threshold: 0.8
+    imu1_remove_gravitational_acceleration: true
+
+    use_control: false
+    stamped_control: false # the input CMD_VEL is a geometry_msgs/Twist or geometry_msgs/TwistStamped message.
+    control_timeout: 0.2
+    control_config: [true, false, false, false, false, true] #  vx, vy, vz, vroll, vpitch, vyaw.
+    acceleration_limits: [1.3, 0.0, 0.0, 0.0, 0.0, 3.4]
+    deceleration_limits: [1.3, 0.0, 0.0, 0.0, 0.0, 4.5]
+    acceleration_gains: [0.8, 0.0, 0.0, 0.0, 0.0, 0.9]
+    deceleration_gains: [1.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+
+    # Q
+    process_noise_covariance: [0.05,   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.05,   0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.06,   0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,    0.03,   0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,    0.0,    0.03,   0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,    0.0,    0.0,    0.06,   0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.025,   0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.025,   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.04,   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.01,   0.0,    0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.01,   0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.02,   0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.01,   0.0,    0.0,
+                              0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.01,   0.0,
+                              0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.015]
+    
+    # R
+    
+    # P
+    initial_estimate_covariance: [1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9]
