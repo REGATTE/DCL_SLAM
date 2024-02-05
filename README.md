@@ -42,17 +42,3 @@ The project uses a Solid State LiDAR, and uses the default solid state lidar ava
 ## Authors
 
 - [J Ashok Kumar](https://github.com/REGATTE)
-
-## 5. Citation
-If you use this work for your research, you may want to cite the paper below, your citation will be appreciated 
-```
-@article{wang2021lightweight,
-  author={H. {Wang} and C. {Wang} and L. {Xie}},
-  journal={IEEE Robotics and Automation Letters}, 
-  title={Lightweight 3-D Localization and Mapping for Solid-State LiDAR}, 
-  year={2021},
-  volume={6},
-  number={2},
-  pages={1801-1807},
-  doi={10.1109/LRA.2021.3060392}}
-```
