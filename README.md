@@ -12,6 +12,12 @@
 | HUMBLE | ![build](https://github.com/REGATTE/SSL_SLAM/blob/main/.github/workflows/ros2_humble/badge.svg) |
 | IRON | ![build](https://github.com/REGATTE/SSL_SLAM/blob/main/.github/workflows/ros2_iron/badge.svg)|
 
+Install all the dependencies needed
+
+```bash
+sudo apt install $(cat requirements.txt)
+```
+
 Source ros2 and its workspace, to the `~/.bashrc` file so that you dont have to source it everytime.
 ```bash
 cd
