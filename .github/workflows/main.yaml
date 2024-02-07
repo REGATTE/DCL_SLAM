@@ -5,81 +5,63 @@ on:
         branches:
             - master
             - 'releases/**'
-
 jobs:
-  setup_env:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          submodules: true
-  
   build_foxy:
-    needs: setup
     runs-on: ubuntu-latest
-    container: ros:foxy-ros-core
     steps:
-      - name: Install dependencies
-        run: |
-          apt install python3-rosdep
-          apt install python3-vcstools
-          rosdep init
-          rosdep update
-          cd ~/ros2_ws/src
-          rosdep install -r -y --from-paths . --ignore-src
-        shell: bash
-  
-  test_foxy:
-    needs: build_foxy
-    runs-on: ubuntu-latest
-    container: ros:foxy-ros-core
-    steps:
-        - run: test -d "${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}/install/roscpp_tutorials"
-          name: "Check that roscpp_tutorials install directory is present"
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
+    - name: Set up ROS2 Foxy
+      uses: ros-tooling/setup-ros@v0.2
+      with:
+        required-ros-distributions: foxy
+
+    - name: Install dependencies
+      run: sudo apt update && rosdep install --from-paths src --ignore-src -r -y
+
+    - name: Build
+      run: colcon build --symlink-install
+
+    - name: Test
+      run: colcon test && colcon test-result --verbose
 
   build_humble:
-    needs: setup
     runs-on: ubuntu-latest
-    container: ros:humble-ros-core
     steps:
-      - name: Install dependencies
-        run: |
-          apt install python3-rosdep
-          apt install python3-vcstools
-          rosdep init
-          rosdep update
-          cd ~/ros2_ws/src
-          rosdep install -r -y --from-paths . --ignore-src
-        shell: bash
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-  test_humble:
-    needs: build_humble
-    runs-on: ubuntu-latest
-    container: ros:humble-ros-core
-    steps:
-      - run: test -d "${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}/install/roscpp_tutorials"
-        name: "Check that roscpp_tutorials install directory is present"
+    - name: Set up ROS2 Humble
+      uses: ros-tooling/setup-ros@v0.2
+      with:
+        required-ros-distributions: humble
+    
+    - name: Install dependencies
+      run: sudo apt update && rosdep install --from-paths src --ignore-src -r -y
 
+    - name: Build
+      run: colcon build --symlink-install
+
+    - name: Test
+      run: colcon test && colcon test-result --verbose
+  
   build_iron:
-    needs: setup
     runs-on: ubuntu-latest
-    container: ros:iron-ros-core
     steps:
-      - name: Install dependencies
-        run: |
-          apt install python3-rosdep
-          apt install python3-vcstools
-          rosdep init
-          rosdep update
-          cd ~/ros2_ws/src
-          rosdep install -r -y --from-paths . --ignore-src
-        shell: bash
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-  test_iron:
-    needs: build_iron
-    runs-on: ubuntu-latest
-    container: ros:iron-ros-core
-    steps:
-      - run: test -d "${{ steps.action-ros-ci.outputs.ros-workspace-directory-name }}/install/roscpp_tutorials"
-        name: "Check that roscpp_tutorials install directory is present"
+    - name: Set up ROS2 Iron
+      uses: ros-tooling/setup-ros@v0.2
+      with:
+        required-ros-distributions: iron
+    
+    - name: Install dependencies
+      run: sudo apt update && rosdep install --from-paths src --ignore-src -r -y
+
+    - name: Build
+      run: colcon build --symlink-install
+
+    - name: Test
+      run: colcon test && colcon test-result --verbose
