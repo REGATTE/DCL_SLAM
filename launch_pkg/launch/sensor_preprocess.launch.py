@@ -29,9 +29,12 @@ async def check_topic_available(node, topic_name, timeout=30):
 async def include_launch_file_if_topics_available(context, package, launch_file_path, topic_names):
     if not rclpy.ok():
         rclpy.init()  # Initialize ROS client library only if not already initialized
-    temp_node = RclpyNode(f"temp_node_for_inclusion")
+    temp_node = RclpyNode("temp_node_for_inclusion")
     try:
-        topics_available = all([await check_topic_available(temp_node, topic_name) for topic_name in topic_names])
+        topics_available = all(
+            await check_topic_available(temp_node, topic_name)
+            for topic_name in topic_names
+        )
         if topics_available:
             full_launch_file_path = os.path.join(
                 FindPackageShare(package).find(package),
@@ -57,7 +60,6 @@ def launch_setup(context):
     # This uses asyncio.ensure_future() to schedule the coroutine in the existing event loop.
     asyncio.ensure_future(include_launch_file_if_topics_available(context, 'SensorPreprocessing', 'imu_preprocessing/launch/imu_preprocessing.launch.py', ['/imu_topic_1', '/imu_topic_2']))
     asyncio.ensure_future(include_launch_file_if_topics_available(context, 'odom_fusion_package', 'path/to/odom_fusion_launch.py', ['/imu_preprocessed']))
-    asyncio.ensure_future(include_launch_file_if_topics_available(context, 'sensor_fusion_package', 'path/to/sensor_fusion_launch.py', ['/odom_preprocessed']))
 
 # Generate the launch description. This is the entry point for the launch file.
 def generate_launch_description():
